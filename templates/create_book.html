@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Создание новой книги</h2>
+
+<form method="post">
+  {% csrf_token %}
+  <label for="title">Название:</label>
+  <input type="text" name="title" required><br>
+
+  <label for="author">Автор:</label>
+  <input type="text" name="author" required><br>
+
+  <label for="description">Описание:</label>
+  <textarea name="description" required></textarea><br>
+
+  <label for="price">Цена:</label>
+  <input type="number" name="price" step="0.01" required><br>
+
+  <label for="image_url">URL изображения:</label>
+  <input type="url" name="image_url"><br>
+
+  <label for="year_published">Год издания:</label>
+  <input type="number" name="year_published"><br>
+
+  <label for="category">Категория:</label>
+  <input type="text" name="category"><br>
+
+  <label for="book_available">В наличии:</label>
+  <input type="checkbox" name="book_available" value="True"><br>
+
+  <button type="submit">Создать</button>
+</form>
+
+{% endblock content %}

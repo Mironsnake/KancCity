@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-4">
+        {% if book.image_url %}
+        <img src="{{ book.image_url }}" class="card-img-top" alt="...">
+        {% else %}
+          <p>Изображение недоступно</p>
+        {% endif %}
+      </div>
+      <div class="col-md-8">
+        <h2>{{ book.title }}</h2>
+        <p>Автор: {{ book.author }}</p>
+        <p>Жанр: {{ book.genre }}</p>
+        <p>Цена: {{ book.price }} руб.</p>
+        {% if book.book_available %}
+          <p>Книга в наличии</p>
+          <form method="post" action="{% url 'purchase_rent_book' book.pk %}">
+            {% csrf_token %}
+            <input type="radio" name="operation" value="PURCHASE" required> Покупка<br>
+            <input type="radio" name="operation" value="RENT_1_MONTH" required> Аренда на 1 месяц<br>
+            <input type="radio" name="operation" value="RENT_3_MONTHS" required> Аренда на 3 месяца<br>
+            <button type="submit">Оформить</button>
+          </form>
+        {% else %}
+          <p>Книга недоступна, нет в наличии</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock content %}

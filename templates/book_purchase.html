@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Покупка/Аренда книги "{{ book.title }}"</h2>
+
+<form id="bookPurchaseForm">
+  {% csrf_token %}
+  <input type="radio" name="operation" value="PURCHASE" required> Покупка<br>
+  <input type="radio" name="operation" value="RENT_1_MONTH" required> Аренда на 1 месяц<br>
+  <input type="radio" name="operation" value="RENT_3_MONTHS" required> Аренда на 3 месяца<br>
+  <button type="submit">Оформить</button>
+</form>
+
+<!-- Место для вывода сообщения об успешной операции -->
+<div class="alert alert-info mt-3" style="display: none;"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-nxIlhN+IqFWxQzvwdTSM7j3T26SPExT1E5BWOflal/E=" crossorigin="anonymous"></script>
+
+<script>
+$(document).ready(function() {
+  $("#bookPurchaseForm").on("submit", function(event) {
+    event.preventDefault();
+
+    $.ajax({
+      url: "{% url 'purchase_rent_modal' book.pk %}",
+      type: "post",
+      data: $(this).serialize(),
+      success: function(response) {
+        // Обновляем содержимое модального окна
+        $(".modal-body").html(response.html);
+      },
+      error: function() {
+        console.log("Ошибка при обработке запроса.");
+      }
+    });
+  });
+});
+</script>
+
+{% endblock content %}
+

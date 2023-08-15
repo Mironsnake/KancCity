@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Полный текст книги: {{ book.title }}</h2>
+
+  <p>{{ book.content }}</p> <!-- Здесь выводится полный текст книги -->
+  
+  <a href="{% url 'profile' %}" class="btn btn-primary">Назад к профилю</a>
+{% endblock content %}

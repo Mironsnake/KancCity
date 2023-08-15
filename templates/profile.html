@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Профиль пользователя</h2>
+  <h4>Купленные книги:</h4>
+
+  <ul>
+    {% for order in user_orders %}
+      <li>
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img src="{{ order.product.image_url }}" class="card-img">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">{{ order.product.title }}</h5>
+                <p class="card-text">Автор: {{ order.product.author }}</p>
+                <!-- Убираем вывод цены -->
+                <!-- Добавляем кнопку "Показать текст книги" и модальное окно -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bookModal{{ order.product.id }}">Показать текст книги</button>
+                <div class="modal fade" id="bookModal{{ order.product.id }}" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel{{ order.product.id }}" aria-hidden="true">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="bookModalLabel{{ order.product.id }}">{{ order.product.title }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <!-- Здесь выводим полный текст книги -->
+                        <p>{{ order.product.content }}</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock content %}

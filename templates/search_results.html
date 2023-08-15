@@ -1,0 +1,49 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Результаты поиска</h2>
+
+<!-- Добавляем выпадающий список с вариантами сортировки -->
+<form method="get">
+  <label for="sort-by">Сортировать по:</label>
+  <select name="sort-by" id="sort-by">
+    <option value="author">Автору</option>
+    <option value="year_published">Году написания</option>
+    <option value="category">Категории</option>
+  </select>
+  <button type="submit">Применить</button>
+</form>
+
+{% if object_list %}
+<div class="row">
+    {% for each in object_list %}
+    <div class="col">
+        <div class="card" style="width: 13rem;">
+            <img src="{{ each.image_url }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{ each.title|slice:":25"}} ...</h5>
+                <p class="card-text">{{ each.price|floatformat:2 }} Руб</p>                
+                {% if each.book_available %}
+                <li class="text-primary">В наличии</li>
+                {% else %}
+                <li class="text-danger">Нет в наличии!</li>
+                {% endif %}<br>
+                {% if each.year_published %}
+                <p>Год издания: {{ each.year_published }}</p>
+                {% endif %}
+                {% if each.category %}
+                <p>Категория: {{ each.category }}</p>
+                {% endif %}
+                <a href="{% url 'detail' each.id %}" class="btn btn-primary">Подробнее</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>К сожалению, по вашему запросу ничего не найдено.</p>
+{% endif %}
+
+{% endblock content %}
